@@ -1,0 +1,24 @@
+{
+  "name": "workspace",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "private": true,
+  "scripts": {
+    "start": "concurrently \"npm run start:lib\" \"npm run start:example\"",
+    "start:lib": "npm start --workspace=lib",
+    "start:example": "npm start --workspace=example",
+    "build": "npm run build --workspace=lib",
+    "publish": "npm publish --workspace=lib",
+    "test": "npm run test --workspace=lib"
+  },
+  "author": "ryohey",
+  "license": "MIT",
+  "workspaces": [
+    "lib",
+    "example"
+  ],
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
+}

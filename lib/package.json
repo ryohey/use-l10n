@@ -1,0 +1,42 @@
+{
+  "name": "use-l10n",
+  "version": "0.0.1",
+  "description": "A type-safe localization hook for React",
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "start": "rollup --config --watch",
+    "build": "rollup --config",
+    "test": "vitest run",
+    "test:watch": "vitest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ryohey/use-l10n.git"
+  },
+  "keywords": [
+    "WebGL",
+    "react"
+  ],
+  "author": "ryohey",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ryohey/use-l10n/issues"
+  },
+  "homepage": "https://github.com/ryohey/use-l10n#readme",
+  "peerDependencies": {
+    "react": ">=18.1.0"
+  },
+  "devDependencies": {
+    "@rollup/plugin-commonjs": "^25.0.7",
+    "@rollup/plugin-typescript": "^11.1.6",
+    "@types/react": "^18.3.0",
+    "rollup": "^4.16.4",
+    "typescript": "^5.4.5",
+    "vitest": "^1.5.2"
+  },
+  "optionalDependencies": {
+    "@rollup/rollup-linux-x64-gnu": "4.16.4"
+  }
+}
