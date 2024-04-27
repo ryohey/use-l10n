@@ -2,6 +2,9 @@
 
 `use-l10n` is a TypeScript library designed to provide an easy and type-safe way to implement localization in your React applications. By using a user-defined dictionary and custom hooks, this library allows for seamless integration of multiple languages, ensuring that keys are strongly typed and specific to your application.
 
+[![npm version](https://badge.fury.io/js/use-l10n.svg)](https://badge.fury.io/js/use-l10n)
+![Node.js CI](https://github.com/ryohey/use-l10n/workflows/Node.js%20CI/badge.svg)
+
 ## Features
 
 - **Type Safety**: Ensures that all localization keys are verified at compile time, reducing errors.
