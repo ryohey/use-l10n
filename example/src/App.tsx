@@ -3,11 +3,11 @@ import {
   Language,
   LocalizationContext,
   Localized,
+  useCurrentLanguage,
   useLocalization,
 } from "./useLocalization"
 
 export const App = () => {
-  const localize = useLocalization()
   const [language, setLanguage] = useState<Language | null>(null)
 
   return (
@@ -38,6 +38,7 @@ export const App = () => {
 
 const Content = () => {
   const localized = useLocalization()
+  const language = useCurrentLanguage()
 
   return (
     <div>
@@ -47,6 +48,7 @@ const Content = () => {
       </h2>
       <p>{localized.description}</p>
       <button onClick={() => alert(localized.hello)}>Push me</button>
+      <p>{language}</p>
     </div>
   )
 }
