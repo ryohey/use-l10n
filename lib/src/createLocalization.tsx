@@ -11,14 +11,15 @@ const createLocalizationContext = <Languages extends string>() =>
     language: null,
   })
 
-const createUseLocalization = <
+const createUseCurrentLanguage = <
   Languages extends string,
   Keys extends string,
-  AliasLanguages extends Languages
+  AliasLanguages extends Languages,
+  PrimaryLanguage extends Languages
 >(
   LocalizationContext: Context<LocalizationContextType<Languages>>,
   localizationTable: LocalizationTable<Languages, Keys, AliasLanguages>,
-  primaryLanguage: Languages
+  primaryLanguage: PrimaryLanguage
 ) => {
   return () => {
     const context = useContext(LocalizationContext)
@@ -27,17 +28,26 @@ const createUseLocalization = <
       throw new Error("useLocalized must be used within a LocalizationContext")
     }
 
-    const localize = (key: Keys) => {
-      const language = context.language ?? getBrowserLanguage()
-      const supportedLanguage =
-        localizationTable.getLanguage(language) ?? primaryLanguage
-      return localizationTable.getString(supportedLanguage, key)
-    }
+    const language = context.language ?? getBrowserLanguage()
+    return localizationTable.getLanguage(language) ?? primaryLanguage
+  }
+}
+
+const createUseLocalization = <
+  Languages extends string,
+  Keys extends string,
+  AliasLanguages extends Languages
+>(
+  localizationTable: LocalizationTable<Languages, Keys, AliasLanguages>,
+  useCurrentLanguage: () => Languages
+) => {
+  return () => {
+    const language = useCurrentLanguage()
 
     return new Proxy(
       {},
       {
-        get: (_, key) => localize(key as Keys),
+        get: (_, key) => localizationTable.getString(language, key as Keys),
       }
     ) as Record<Keys, string>
   }
@@ -67,11 +77,19 @@ export const createLocalization = <
   const LocalizationContext = createLocalizationContext<Languages>()
   const localizationTable = new LocalizationTable(table, aliases)
   const firstLanguage = primaryLanguage ?? (Object.keys(table)[0] as Languages)
-  const useLocalization = createUseLocalization(
+
+  const useCurrentLanguage = createUseCurrentLanguage(
     LocalizationContext,
     localizationTable,
     firstLanguage
   )
+
+  const useLocalization = createUseLocalization(
+    localizationTable,
+    useCurrentLanguage
+  )
+
   const Localized = createComponent(useLocalization)
-  return { LocalizationContext, useLocalization, Localized }
+
+  return { LocalizationContext, useCurrentLanguage, useLocalization, Localized }
 }

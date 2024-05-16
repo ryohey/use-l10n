@@ -15,7 +15,7 @@
 
 ### Hooks
 
-```typescript
+```tsx
 import { useLocalization } from "./l10n"
 
 const App = () => {
@@ -31,7 +31,7 @@ const App = () => {
 
 ### Components
 
-```typescript
+```tsx
 import { Localized } from "./l10n"
 
 const App = () => {
@@ -137,7 +137,7 @@ Incorporate the `LocalizationContext.Provider` within your main application comp
 
 ### `App.tsx`
 
-```typescript
+```tsx
 import { LocalizationContext } from "./useLocalization"
 
 render(
@@ -155,7 +155,7 @@ This example demonstrates how you can allow users to switch the language dynamic
 
 ### `LanguageSwitcher.tsx`
 
-```typescript
+```tsx
 import React, { useState } from "react"
 import { LocalizationContext } from "./useLocalization"
 
@@ -191,7 +191,7 @@ export const LanguageSwitcher = () => {
 Creates a localization context and hook based on the provided dictionary.
 
 ```typescript
-const { LocalizationContext, useLocalization, Localized } = createLocalization(
+const { LocalizationContext, useLocalization, useCurrentLanguage, Localized } = createLocalization(
   localizationTable: Record<string, Record<string, string>>,
   defaultLanguage: string,
   languageMappings: Array<[RegExp, string]>
@@ -208,13 +208,22 @@ A custom hook for retrieving localized strings.
 
 ```typescript
 const localized = useLocalization()
-console.log(localized.hello)) // "Hello!"
+console.log(localized.hello) // "Hello!"
+```
+
+### `useCurrentLanguage`
+
+A custom hook for retrieving the current language.
+
+```typescript
+const language = useCurrentLanguage()
+console.log(language) // "en"
 ```
 
 ### `Localized`
 
 A React component that renders the localized string based on the provided key.
 
-```typescript
+```tsx
 <Localized name="hello" />
 ```
