@@ -1,4 +1,4 @@
-import { Context, FC, createContext, useContext, useMemo } from "react"
+import { Context, FC, createContext, useContext, useMemo, useCallback } from "react"
 import { LocalizationTable } from "./LocalizationTable"
 import { getBrowserLanguage } from "./getBrowserLanguage"
 
@@ -46,8 +46,8 @@ const createUseLocalization = <
   return () => {
     const language = useCurrentLanguage()
 
-    return useMemo(
-      () => (key: Keys) => localizationTable.getString(language, key),
+    return useCallback(
+      (key: Keys) => localizationTable.getString(language, key),
       [language]
     )
   }
