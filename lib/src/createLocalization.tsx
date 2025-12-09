@@ -1,4 +1,4 @@
-import { Context, FC, createContext, useContext } from "react"
+import { Context, FC, createContext, useContext, useMemo } from "react"
 import { LocalizationTable } from "./LocalizationTable"
 import { getBrowserLanguage } from "./getBrowserLanguage"
 
@@ -28,8 +28,10 @@ const createUseCurrentLanguage = <
       throw new Error("useLocalized must be used within a LocalizationContext")
     }
 
-    const language = context.language ?? getBrowserLanguage()
-    return localizationTable.getLanguage(language) ?? primaryLanguage
+    return useMemo(() => {
+      const language = context.language ?? getBrowserLanguage()
+      return localizationTable.getLanguage(language) ?? primaryLanguage
+    }, [context.language])
   }
 }
 
@@ -44,24 +46,22 @@ const createUseLocalization = <
   return () => {
     const language = useCurrentLanguage()
 
-    return new Proxy(
-      {},
-      {
-        get: (_, key) => localizationTable.getString(language, key as Keys),
-      }
-    ) as Record<Keys, string>
+    return useMemo(
+      () => (key: Keys) => localizationTable.getString(language, key),
+      [language]
+    )
   }
 }
 
 const createComponent =
   <Keys extends string>(
-    useLocalization: () => Record<Keys, string>
+    useLocalization: () => (key: Keys) => string
   ): FC<{
     name: Keys
   }> =>
   ({ name }) => {
     const localized = useLocalization()
-    return <>{localized[name]}</>
+    return <>{localized(name)}</>
   }
 
 export const createLocalization = <

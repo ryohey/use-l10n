@@ -46,8 +46,8 @@ const Content = () => {
       <h2>
         <Localized name="hello" />
       </h2>
-      <p>{localized.description}</p>
-      <button onClick={() => alert(localized.hello)}>Push me</button>
+      <p>{localized("description")}</p>
+      <button onClick={() => alert(localized("hello"))}>Push me</button>
       <p>{language}</p>
     </div>
   )
